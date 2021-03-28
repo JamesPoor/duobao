@@ -43,6 +43,6 @@ for one in taskList:
     url = 'http://query.shuzhikj.com/api/platform/add_task?name=' + str(one[3]) + '&url=' + str(one[2])+'&type=1&urlmode=1'
     json_data = json.loads(requests.get(url=url, headers=headers).text)
     print('任务 >> ', '关键词：', one[3], json_data)
-    for _ in range(1):
+    for _ in range(5):
         threading.Thread(target=find, args=(json_data, one)).start()
 con.close()
