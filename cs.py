@@ -19,7 +19,7 @@ def find(jd, one):
             cursor = con.cursor()
             cursor.execute('update task set status=2, rank=' + str(json_data['data']) + ' where id=' + str(one[0]))
             print('传输成功:', requests.post(url="https://t.idccap.com/api/v1/QuickRanking/updata_rank", data={'id': one[1], 'rank': json_data['data']}).text)
-
+#test
 config = {
     'host': 'localhost',
     'port': 3306,
