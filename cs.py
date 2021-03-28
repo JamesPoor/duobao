@@ -2,13 +2,16 @@ import threading, requests, json, time, random
 import mysql.connector
 from requests.adapters import HTTPAdapter
 
+#最大重连数
 requests.adapters.DEFAULT_RETRIES = 10
+
 s = requests.session()
 s.keep_alive = False
 def find(jd, one):
     if jd:
         json_data = json.loads(requests.get("http://query.shuzhikj.com/api/platform/get_taskrank?id=" + jd['data'], headers=headers).text)
         while json_data['code'] == 0:
+            # 进行随机休眠
             time.sleep(random.randint(5, 10))
             json_data = json.loads(requests.get("http://query.shuzhikj.com/api/platform/get_taskrank?id=" + jd['data'], headers=headers).text)
             print('执行查询》》', '关键词：', one[3], json_data)
@@ -44,6 +47,7 @@ for one in taskList:
     url = 'http://query.shuzhikj.com/api/platform/add_task?name=' + str(one[3]) + '&url=' + str(one[2])+'&type=1&urlmode=1'
     json_data = json.loads(requests.get(url=url, headers=headers).text)
     print('任务 >> ', '关键词：', one[3], json_data)
+    # 多线程
     for _ in range(1):
         threading.Thread(target=find, args=(json_data, one)).start()
 con.close()
